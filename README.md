@@ -6,7 +6,8 @@
     sudo apt install -y python3-rosdep
     rosdep update
 
-    cd <your_ws>/src
+    mkdir -p dog_robot/src
+    cd dog_robot/src
     git clone --recursive https://github.com/noshluk2/champ.git
     git clone https://github.com/chvmp/champ_teleop -b ros2
     cd ..
@@ -14,7 +15,6 @@
 ```
 - Build your workspace:
 ```
-    mkdir -p dog_robot/src
     cd dog_robot
     colcon build
     source dog_robot/install/setup.bash
