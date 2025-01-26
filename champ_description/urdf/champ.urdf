@@ -11,13 +11,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/base_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/base_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/base_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/base_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -57,7 +57,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hokuyo_utm_30lx.dae"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hokuyo_utm_30lx.dae"/>
       </geometry>
     </visual>
     <collision>
@@ -121,10 +121,10 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/asus_camera_simple.dae"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/asus_camera_simple.dae"/>
       </geometry>
     </visual>
-    <!--        
+    <!--
        <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
@@ -135,7 +135,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/asus_camera_simple.dae"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/asus_camera_simple.dae"/>
       </geometry>
     </collision>
   </link>
@@ -324,13 +324,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -347,13 +347,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -370,13 +370,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -467,13 +467,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -490,13 +490,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -513,13 +513,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -610,13 +610,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -633,13 +633,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -656,13 +656,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -753,13 +753,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -776,13 +776,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/upper_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -799,13 +799,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/Alexander.Karavaev/champ_ws/install/champ_description/share/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/luqman/dogbot_ws/src/champ/champ_description/meshes/lower_leg_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -903,12 +903,12 @@
   </gazebo>
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <parameters>/home/Alexander.Karavaev/champ_ws/install/champ_gazebo/share/champ_gazebo/config/ros_control.yaml</parameters>
+      <parameters>/home/luqman/dogbot_ws/src/champ/champ_gazebo/config/ros_control.yaml</parameters>
     </plugin>
   </gazebo>
   <!-- <gazebo>
         <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-    
+
             <parameters>$(find champ_gazebo)/config/ros_control.yaml</parameters>
           </plugin>
     </gazebo> -->

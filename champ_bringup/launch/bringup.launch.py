@@ -34,7 +34,7 @@ def generate_launch_description():
     links_config = os.path.join(config_pkg_share, "config/links/links.yaml")
 
     default_rviz_path = os.path.join(descr_pkg_share, "rviz/urdf_viewer.rviz")
-    default_model_path = os.path.join(descr_pkg_share, "urdf/champ.urdf.xacro")
+    default_model_path = os.path.join(descr_pkg_share, "urdf/champ.urdf")
 
     declare_use_sim_time = DeclareLaunchArgument(
         "use_sim_time",

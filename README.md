@@ -24,6 +24,10 @@
 ```
     ros2 launch champ_config bringup.launch.py rviz:=true
 ```
+- Gazebo
+```
+ ros2 launch champ_config gazebo_gen.launch
+```
 - Drive Robot
 ```
     ros2 launch champ_teleop teleop.launch.py
