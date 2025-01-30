@@ -13,13 +13,13 @@
     cd ..
     rosdep install --from-paths src --ignore-src -r -y
 ```
+## Run Simulation
 - Build your workspace:
 ```
     cd dog_robot
     colcon build
-    source dog_robot/install/setup.bash
+    source ~/dog_robot/install/setup.bash
 ```
-## Run Simulation
 - RVIZ:
 ```
     ros2 launch champ_config bringup.launch.py rviz:=true
