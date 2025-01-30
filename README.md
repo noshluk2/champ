@@ -20,15 +20,17 @@
     colcon build
     source ~/dog_robot/install/setup.bash
 ```
-- RVIZ:
-```
-    ros2 launch champ_config bringup.launch.py rviz:=true
-```
+
 - Gazebo
 ```
- ros2 launch champ_config gazebo_gen.launch
+ ros2 launch champ_config gazebo_gen.launch.py
 ```
 - Drive Robot
 ```
     ros2 launch champ_teleop teleop.launch.py
 ```
+- RVIZ:
+```
+    ros2 launch champ_config bringup.launch.py rviz:=true
+```
+
