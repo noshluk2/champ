@@ -27,7 +27,7 @@
 ```
 - Drive Robot
 ```
-    ros2 launch champ_teleop teleop.launch.py
+    ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 - RVIZ:
 ```
