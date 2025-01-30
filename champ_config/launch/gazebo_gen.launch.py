@@ -30,7 +30,7 @@ def generate_launch_description():
     declare_use_sim_time = DeclareLaunchArgument(
         "use_sim_time", default_value="true", description="Use simulation (Gazebo) clock if true"
     )
-    declare_rviz = DeclareLaunchArgument("rviz", default_value="false", description="Launch RViz")
+    declare_rviz = DeclareLaunchArgument("rviz", default_value="true", description="Launch RViz")
     declare_robot_name = DeclareLaunchArgument("robot_name", default_value="champ", description="Robot name")
     declare_lite = DeclareLaunchArgument("lite", default_value="false", description="Lite version")
     declare_ros_control_file = DeclareLaunchArgument(
