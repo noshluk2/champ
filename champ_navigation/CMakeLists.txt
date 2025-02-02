@@ -26,10 +26,10 @@ target_link_libraries(path_planner
   ${OMPL_LIBRARIES})
 
 
-# add_executable(gtg_single_ompl src/gtg_single_ompl.cpp)
-# ament_target_dependencies(gtg_single_ompl rclcpp geometry_msgs nav_msgs tf2 tf2_ros visualization_msgs)
+add_executable(controller src/controller.cpp)
+ament_target_dependencies(controller rclcpp geometry_msgs nav_msgs tf2 tf2_ros)
 
-install(TARGETS path_planner
+install(TARGETS path_planner controller
   DESTINATION lib/${PROJECT_NAME}
 )
 

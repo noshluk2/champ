@@ -32,3 +32,10 @@
 ```
     ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
+
+## Go to Goal
+- Go to Goal : Give x y z and yaw rotation goal
+```
+    ros2 run champ_navigation controller --ros-args -p goal_x:=2.0 -p goal_y:=2.0 -p goal_yaw:=-1.57
+
+```
