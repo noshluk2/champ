@@ -24,18 +24,21 @@
 ```
  ros2 launch champ_config gazebo_gen.launch.py
 ```
+- Perform Point Cloud Processing
+```bash
+    ros2 run champ_navigation point_cloud_processing
+
+```
 - Perform Path planning
 ```bash
     ros2 run champ_navigation path_planner
 ```
-- Drive Robot
+- Perform Path following
+```bash
+    ros2 run champ_navigation controller
+```
+
+- Manual Drive Robot
 ```
     ros2 run teleop_twist_keyboard teleop_twist_keyboard
-```
-
-## Go to Goal
-- Go to Goal : Give x y z and yaw rotation goal
-```
-    ros2 run champ_navigation controller --ros-args -p goal_x:=2.0 -p goal_y:=2.0 -p goal_yaw:=-1.57
-
 ```

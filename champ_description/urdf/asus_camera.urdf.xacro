@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:property name="M_PI" value="3.1415926535897931" />
-  
+
     <!--
      The asus_camera_model macro only adds the model, it does not also add
      the openni gazebo plugin. See the 'asus_camera' macro below for that
@@ -13,7 +13,7 @@
         <parent link="${parent}"/>
         <child link="${name}_link"/>
       </joint>
-      
+
       <link name="${name}_link">
         <inertial>
           <mass value="0.200" />
@@ -26,7 +26,7 @@
             <mesh filename="file://$(find champ_description)/meshes/asus_camera_simple.dae"/>
           </geometry>
         </visual>
-       <!--        
+       <!--
        <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
@@ -84,7 +84,7 @@
       <xacro:asus_camera_model name="${name}" parent="${parent}">
         <xacro:insert_block name="origin" />
       </xacro:asus_camera_model>
-  
+
       <!-- ASUS Xtion PRO camera for simulation -->
       <gazebo reference="${name}_depth_frame">
         <sensor type="depth" name="${name}">
@@ -98,7 +98,7 @@
             </image>
             <clip>
               <near>0.5</near>
-              <far>9</far>
+              <far>50</far>
             </clip>
           </camera>
 
@@ -108,7 +108,7 @@
           <!-- Set update_rate only sensor, not on plugin -->
           <update_rate>30</update_rate>
 
-          
+
           <plugin name="${name}_camera_controller" filename="libgazebo_ros_camera.so">
             <ros>
               <!-- <namespace>custom_ns</namespace> -->
@@ -119,7 +119,7 @@
               <argument>custom_camera/points:=${name}/depth/points</argument>
 
 
-              
+
             </ros>
             <qos>
               <topic name="/${name}/image_raw">
@@ -191,7 +191,7 @@
                       <history depth="3">keep_last</history>
                   </subscription>
               </topic>
-              
+
             </qos>
             <!-- Set camera name. If empty, defaults to sensor name (i.e. "sensor_name") -->
             <!-- <camera_name>custom_camera</camera_name> -->
@@ -210,4 +210,4 @@
       </gazebo>
     </xacro:macro>
   </robot>
-  
+

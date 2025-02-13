@@ -1,21 +1,11 @@
-/**
- * @file go_to_goal_improved.cpp
- * @brief A ROS 2 node for improved go-to-goal control that avoids circling.
- *
- * This node separates the heading control from forward motion when far from the goal:
- *  1. Rotate in place if yaw error is large (above heading_threshold).
- *  2. Drive toward the goal if yaw error is small enough.
- *  3. Once within distance_tolerance, stop forward motion and rotate to reach goal_yaw.
- *
- * Tweak gains, thresholds, and tolerances as needed.
- */
-
 #include <chrono>
 #include <cmath>
 #include <memory>
+#include <vector>
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
+#include "geometry_msgs/msg/pose_array.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 
 #include "tf2/LinearMath/Quaternion.h"
@@ -23,130 +13,113 @@
 
 using namespace std::chrono_literals;
 
-class GoToGoalController : public rclcpp::Node
+class WaypointsFollower : public rclcpp::Node
 {
 public:
-    GoToGoalController()
-    : Node("go_to_goal_controller")
+    WaypointsFollower()
+    : Node("waypoints_follower")
     {
         // Declare parameters (with defaults)
-        this->declare_parameter("goal_x", 1.0);
-        this->declare_parameter("goal_y", 0.0);
-        this->declare_parameter("goal_yaw", 0.0);
-        this->declare_parameter("linear_speed_gain", 0.5);
-        this->declare_parameter("angular_speed_gain", 1.0);
-        this->declare_parameter("distance_tolerance", 0.05);
-        this->declare_parameter("yaw_tolerance", 0.05);
-
-        // Additional parameter to decide when to rotate in place vs. move
-        this->declare_parameter("heading_threshold", 0.3); // rad
+        this->declare_parameter<double>("linear_speed_gain", 0.5);
+        this->declare_parameter<double>("angular_speed_gain", 1.0);
+        this->declare_parameter<double>("distance_tolerance", 0.05);
 
         // Get parameters
-        goal_x_            = this->get_parameter("goal_x").as_double();
-        goal_y_            = this->get_parameter("goal_y").as_double();
-        goal_yaw_          = this->get_parameter("goal_yaw").as_double();
         linear_speed_gain_ = this->get_parameter("linear_speed_gain").as_double();
-        angular_speed_gain_= this->get_parameter("angular_speed_gain").as_double();
-        distance_tolerance_= this->get_parameter("distance_tolerance").as_double();
-        yaw_tolerance_     = this->get_parameter("yaw_tolerance").as_double();
-        heading_threshold_ = this->get_parameter("heading_threshold").as_double();
+        angular_speed_gain_ = this->get_parameter("angular_speed_gain").as_double();
+        distance_tolerance_ = this->get_parameter("distance_tolerance").as_double();
 
-        // Create subscription to /odom
+        // Create subscriber to PoseArray (the global path)
+        path_sub_ = this->create_subscription<geometry_msgs::msg::PoseArray>(
+            "/planner/path",
+            1,
+            std::bind(&WaypointsFollower::pathCallback, this, std::placeholders::_1)
+        );
+
+        // Create subscription to /odom for current robot pose
         odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            "odom",
+            "/odom",
             10,
-            std::bind(&GoToGoalController::odomCallback, this, std::placeholders::_1)
+            std::bind(&WaypointsFollower::odomCallback, this, std::placeholders::_1)
         );
 
         // Create publisher to /cmd_vel
-        cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+        cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
 
-        // Create timer for control loop (10 Hz)
+        // Create a timer for the control loop (10 Hz)
         timer_ = this->create_wall_timer(
             100ms,
-            std::bind(&GoToGoalController::controlLoop, this)
+            std::bind(&WaypointsFollower::controlLoop, this)
         );
 
-        // Initialize pose
+        // Initialize current pose
         current_x_   = 0.0;
         current_y_   = 0.0;
         current_yaw_ = 0.0;
+
+        waypoint_index_ = 0;
+
+        RCLCPP_INFO(this->get_logger(), "WaypointsFollower node started.");
     }
 
 private:
+    // --------------------------------------------------------------------------
+    //  1) Subscriptions / Publications
+    // --------------------------------------------------------------------------
+    rclcpp::Subscription<geometry_msgs::msg::PoseArray>::SharedPtr path_sub_;
+    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
+    rclcpp::TimerBase::SharedPtr timer_;
+
+    // --------------------------------------------------------------------------
+    //  2) Parameters
+    // --------------------------------------------------------------------------
+    double linear_speed_gain_;
+    double angular_speed_gain_;
+    double distance_tolerance_;
+
+    // --------------------------------------------------------------------------
+    //  3) Waypoints Data
+    // --------------------------------------------------------------------------
+    std::vector<geometry_msgs::msg::Pose> path_;
+    size_t waypoint_index_; // which waypoint we are driving toward
+
+    // --------------------------------------------------------------------------
+    //  4) Current Robot Pose
+    // --------------------------------------------------------------------------
+    double current_x_;
+    double current_y_;
+    double current_yaw_;
+
+    // --------------------------------------------------------------------------
+    //  5) Callbacks
+    // --------------------------------------------------------------------------
     /**
-     * @brief Timer callback implementing the improved go-to-goal logic.
+     * @brief Called whenever a new PoseArray (global path) is published.
+     * We store the new set of waypoints and reset the index to 0.
      */
-    void controlLoop()
+    void pathCallback(const geometry_msgs::msg::PoseArray::SharedPtr msg)
     {
-        // Calculate distance to goal
-        double dx = goal_x_ - current_x_;
-        double dy = goal_y_ - current_y_;
-        double distance_error = std::sqrt(dx * dx + dy * dy);
-
-        // Calculate heading to goal and yaw error
-        double heading_to_goal = std::atan2(dy, dx);
-        double yaw_error = normalizeAngle(heading_to_goal - current_yaw_);
-
-        // Prepare Twist message
-        geometry_msgs::msg::Twist cmd_vel;
-
-        // 1. Check if we've reached the goal position
-        if (distance_error <= distance_tolerance_)
+        // Copy the poses into our vector
+        path_.clear();
+        path_.reserve(msg->poses.size());
+        for (auto &p : msg->poses)
         {
-            // Already close to goal's position. Now check orientation.
-            double yaw_goal_error = normalizeAngle(goal_yaw_ - current_yaw_);
-
-            if (std::fabs(yaw_goal_error) > yaw_tolerance_)
-            {
-                // Rotate in place to match the final yaw
-                cmd_vel.linear.x  = 0.0;
-                cmd_vel.angular.z = angular_speed_gain_ * yaw_goal_error;
-            }
-            else
-            {
-                // Goal fully reached (position + orientation)
-                cmd_vel.linear.x  = 0.0;
-                cmd_vel.angular.z = 0.0;
-            }
-        }
-        else
-        {
-            // 2. Not yet at goal position
-            // Decide whether to rotate in place or move forward
-            if (std::fabs(yaw_error) > heading_threshold_)
-            {
-                // Large yaw error => rotate in place first
-                cmd_vel.linear.x  = 0.0;
-                cmd_vel.angular.z = angular_speed_gain_ * yaw_error;
-            }
-            else
-            {
-                // Small yaw error => move forward + small turn
-                cmd_vel.linear.x  = linear_speed_gain_  * distance_error;
-                cmd_vel.angular.z = angular_speed_gain_ * yaw_error;
-            }
+            path_.push_back(p);
         }
 
-        // Optional: limit speeds
-        const double max_linear_speed  = 0.3; // m/s
-        const double max_angular_speed = 1.0; // rad/s
+        waypoint_index_ = 0; // start from the first waypoint
 
-        if (cmd_vel.linear.x > max_linear_speed)
-            cmd_vel.linear.x = max_linear_speed;
-        if (cmd_vel.linear.x < -max_linear_speed)
-            cmd_vel.linear.x = -max_linear_speed;
-        if (cmd_vel.angular.z > max_angular_speed)
-            cmd_vel.angular.z = max_angular_speed;
-        if (cmd_vel.angular.z < -max_angular_speed)
-            cmd_vel.angular.z = -max_angular_speed;
-
-        // Publish velocity command
-        cmd_pub_->publish(cmd_vel);
+        RCLCPP_INFO(
+            this->get_logger(),
+            "Received a path with %zu waypoints. Starting at waypoint_index=0.",
+            path_.size()
+        );
     }
 
     /**
-     * @brief Callback to update current pose from odometry.
+     * @brief Called whenever a new Odom message arrives.
+     * We update our current position and yaw.
      */
     void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
     {
@@ -168,6 +141,74 @@ private:
     }
 
     /**
+     * @brief Control loop (runs at 10 Hz).
+     * Moves the robot through each waypoint in path_ until completed.
+     */
+    void controlLoop()
+    {
+        geometry_msgs::msg::Twist cmd_vel;
+        cmd_vel.linear.x = 0.0;
+        cmd_vel.angular.z = 0.0;
+
+        // If no path or we've finished all waypoints, do nothing
+        if (path_.empty() || waypoint_index_ >= path_.size())
+        {
+            // Stop
+            cmd_pub_->publish(cmd_vel);
+            return;
+        }
+
+        // Get the current waypoint
+        const auto &target_pose = path_[waypoint_index_];
+        double goal_x = target_pose.position.x;
+        double goal_y = target_pose.position.y;
+
+        // Compute distance to current waypoint
+        double dx = goal_x - current_x_;
+        double dy = goal_y - current_y_;
+        double distance_error = std::sqrt(dx * dx + dy * dy);
+
+        // If we are close enough, move to the next waypoint
+        if (distance_error <= distance_tolerance_)
+        {
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Reached waypoint %zu (%.2f, %.2f).",
+                waypoint_index_, goal_x, goal_y
+            );
+            waypoint_index_++;
+            // If we just finished the last waypoint, stop and return
+            if (waypoint_index_ >= path_.size())
+            {
+                RCLCPP_INFO(this->get_logger(), "Path completed. Stopping.");
+                cmd_pub_->publish(cmd_vel);
+                return;
+            }
+        }
+        else
+        {
+            // Otherwise, compute heading to the waypoint
+            double heading_to_waypoint = std::atan2(dy, dx);
+            double yaw_error = normalizeAngle(heading_to_waypoint - current_yaw_);
+
+            // Simple proportional control
+            cmd_vel.linear.x  = linear_speed_gain_  * distance_error;
+            cmd_vel.angular.z = angular_speed_gain_ * yaw_error;
+
+            // Optional: clamp speeds
+            double max_lin = 1.2;
+            double max_ang = 1.0;
+            if (cmd_vel.linear.x > max_lin)  cmd_vel.linear.x = max_lin;
+            if (cmd_vel.linear.x < -max_lin) cmd_vel.linear.x = -max_lin;
+            if (cmd_vel.angular.z > max_ang)  cmd_vel.angular.z = max_ang;
+            if (cmd_vel.angular.z < -max_ang) cmd_vel.angular.z = -max_ang;
+        }
+
+        // Publish the velocity
+        cmd_pub_->publish(cmd_vel);
+    }
+
+    /**
      * @brief Normalize an angle to [-π, π].
      */
     double normalizeAngle(double angle)
@@ -176,37 +217,12 @@ private:
         while (angle < -M_PI) angle += 2.0 * M_PI;
         return angle;
     }
-
-private:
-    // Subscriptions and Publications
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
-
-    // Timer
-    rclcpp::TimerBase::SharedPtr timer_;
-
-    // Parameters
-    double goal_x_;
-    double goal_y_;
-    double goal_yaw_;
-    double linear_speed_gain_;
-    double angular_speed_gain_;
-    double distance_tolerance_;
-    double yaw_tolerance_;
-
-    // Additional heading threshold to decide rotate-in-place vs. move forward
-    double heading_threshold_;
-
-    // Current pose
-    double current_x_;
-    double current_y_;
-    double current_yaw_;
 };
 
-int main(int argc, char ** argv)
+int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<GoToGoalController>();
+    auto node = std::make_shared<WaypointsFollower>();
     rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;

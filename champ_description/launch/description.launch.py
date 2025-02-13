@@ -14,7 +14,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     description_path = LaunchConfiguration("description_path")
 
-    declare_use_sim_time = DeclareLaunchArgument("use_sim_time", default_value="false", description="Use simulation (Gazebo) clock if true")
+    declare_use_sim_time = DeclareLaunchArgument("use_sim_time", default_value="true", description="Use simulation (Gazebo) clock if true")
 
     pkg_share = launch_ros.substitutions.FindPackageShare(package="champ_description").find("champ_description")
     default_model_path = os.path.join(pkg_share, "urdf/champ.urdf.xacro")
@@ -24,7 +24,7 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        
+
         parameters=[
             {"robot_description": Command(["xacro ", description_path])},
             {"use_tf_static": False},

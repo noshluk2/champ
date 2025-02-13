@@ -37,25 +37,25 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument(
-            name='robot_name', 
+            name='robot_name',
             default_value='',
             description='Set robot name for multi robot'
         ),
 
         DeclareLaunchArgument(
-            name='sim', 
-            default_value='false',
+            name='sim',
+            default_value='true',
             description='Enable use_sime_time to true'
         ),
 
         DeclareLaunchArgument(
-            name='rviz', 
+            name='rviz',
             default_value='false',
             description='Run rviz'
         ),
 
         DeclareLaunchArgument(
-            name='hardware_connected', 
+            name='hardware_connected',
             default_value='false',
             description='Set to true if connected to a physical robot'
         ),
